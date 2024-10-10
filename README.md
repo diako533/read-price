@@ -47,7 +47,6 @@ add the following code at the end:
 
 function fetch_product_price_from_site_a( $product_id ) 
 {
-
     $api_url = 'https://example-site-a.com/wp-json/wc/v3/products/' . $product_id;
     // API keys from Site A
     $consumer_key = 'ck_your_consumer_key';  // Replace with your actual API key
