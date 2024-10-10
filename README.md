@@ -43,7 +43,6 @@ Now, we will move to Site B and write code that connects to the API of Site A an
 
 3. Open the functions.php file of your theme and add the following code at the end:
 
-
 function fetch_product_price_from_site_a( $product_id ) {
     $api_url = 'https://example-site-a.com/wp-json/wc/v3/products/' . $product_id;
     // API keys from Site A
@@ -71,6 +70,7 @@ function fetch_product_price_from_site_a( $product_id ) {
 
     return 'Price not found';  // If price is not found
 }
+
 
 This function:
 
