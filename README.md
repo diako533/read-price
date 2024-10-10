@@ -88,18 +88,17 @@ Next, you need to store the price and display it on Site B.
 
 Add this code to the functions.php file as well:
 
-
-function display_product_price_in_site_b( $product_id ) {
-    // Fetch the price from Site A
-    $price = fetch_product_price_from_site_a( $product_id );
-
-    // Check if the price is numeric
-    if ( is_numeric( $price ) ) {
-        return wc_price( $price );  // Format and return the price
+    function display_product_price_in_site_b( $product_id ) {
+        // Fetch the price from Site A
+        $price = fetch_product_price_from_site_a( $product_id );
+    
+        // Check if the price is numeric
+        if ( is_numeric( $price ) ) {
+            return wc_price( $price );  // Format and return the price
+        }
+    
+        return 'Price not available';  // If price is not found
     }
-
-    return 'Price not available';  // If price is not found
-}
 
 This function:
 
@@ -116,14 +115,14 @@ To make it easy to use the price in Elementor, we will create a shortcode that a
 
 Add this code to the functions.php file:
 
-function custom_product_price_shortcode( $atts ) {
-    $atts = shortcode_atts( array(
-        'product_id' => '',  // The product ID from Site A
-    ), $atts, 'custom_product_price' );
-
-    return display_product_price_in_site_b( $atts['product_id'] );
-}
-add_shortcode( 'product_price', 'custom_product_price_shortcode' );
+    function custom_product_price_shortcode( $atts ) {
+        $atts = shortcode_atts( array(
+            'product_id' => '',  // The product ID from Site A
+        ), $atts, 'custom_product_price' );
+    
+        return display_product_price_in_site_b( $atts['product_id'] );
+    }
+    add_shortcode( 'product_price', 'custom_product_price_shortcode' );
 
 You can now use the shortcode to display the product price as follows:
 
@@ -146,38 +145,3 @@ Now that you have the shortcode, you can use it within Elementor.
 [product_price product_id="123"]
 
 4. Elementor will automatically fetch and display the product price from Site A.
-
-Step 6: Automatically Update the Price with Cron Jobs
-
-To ensure the prices are updated automatically and regularly, you can set up a cron job.
-
-6.1. Adding a Cron Job:
-
-Add the following code to the functions.php file:
-
-// Schedule a cron job to run every hour
-if ( ! wp_next_scheduled( 'update_prices_cron_event' ) ) {
-    wp_schedule_event( time(), 'hourly', 'update_prices_cron_event' );
-}
-
-// Hook to update product prices
-add_action( 'update_prices_cron_event', function() {
-    $product_id = 123; // The product ID from Site A
-    display_product_price_in_site_b( $product_id );  // Update the product price
-});
-
-This cron job will automatically fetch the product price from Site A every hour and update it on Site B.
-
-Conclusion
-
-By following these steps:
-
-1. You activate the API on Site A to fetch product information using API keys.
-
-2. Add the necessary code to Site B’s functions.php to fetch, store, and display the product price from Site A.
-
-3. Use Elementor and a shortcode to easily display the price anywhere on Site B.
-
-4. Automatically update the price using a cron job.
-
-If you encounter any issues or need further assistance, feel free to ask!
