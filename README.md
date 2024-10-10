@@ -43,7 +43,7 @@ Now, we will move to Site B and write code that connects to the API of Site A an
 
 3. Open the functions.php file of your theme
 
-//add the following code at the end:
+add the following code at the end:
 
 function fetch_product_price_from_site_a( $product_id ) 
 {
