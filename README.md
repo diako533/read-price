@@ -45,7 +45,7 @@ Now, we will move to Site B and write code that connects to the API of Site A an
 
 function fetch_product_price_from_site_a( $product_id ) 
 {
-    $api_url = 'https://example-site-a.com/wp-json/wc/v3/products/' . $product_id;
+    $api_url = '' . $product_id;
     // API keys from Site A
     $consumer_key = 'ck_your_consumer_key';  // Replace with your actual API key
     $consumer_secret = 'cs_your_consumer_secret';  // Replace with your actual Secret key
