@@ -1,4 +1,3 @@
-
 Step-by-Step Guide: Fetching Product Price from Site A and Displaying it on Site B
 
 Let’s go step by step on how to fetch the product price from Site A, store the necessary code on Site B, and properly display the price using Elementor.
@@ -45,34 +44,34 @@ Now, we will move to Site B and write code that connects to the API of Site A an
 
 add the following code at the end:
 
-function fetch_product_price_from_site_a( $product_id ) 
-{
-    $api_url = 'https://example-site-a.com/wp-json/wc/v3/products/' . $product_id;
-    // API keys from Site A
-    $consumer_key = 'ck_your_consumer_key';  // Replace with your actual API key
-    $consumer_secret = 'cs_your_consumer_secret';  // Replace with your actual Secret key
-
-    // Send HTTP request to Site A's API
-    $response = wp_remote_get( $api_url, array(
-        'headers' => array(
-            'Authorization' => 'Basic ' . base64_encode( $consumer_key . ':' . $consumer_secret ),
-        ),
-    ));
-
-    // Process the API response
-    if ( is_wp_error( $response ) ) {
-        return 'Error fetching price';  // In case of an error
+    function fetch_product_price_from_site_a( $product_id ) 
+    {
+        $api_url = 'https://example-site-a.com/wp-json/wc/v3/products/' . $product_id;
+        // API keys from Site A
+        $consumer_key = 'ck_your_consumer_key';  // Replace with your actual API key
+        $consumer_secret = 'cs_your_consumer_secret';  // Replace with your actual Secret key
+    
+        // Send HTTP request to Site A's API
+        $response = wp_remote_get( $api_url, array(
+            'headers' => array(
+                'Authorization' => 'Basic ' . base64_encode( $consumer_key . ':' . $consumer_secret ),
+            ),
+        ));
+    
+        // Process the API response
+        if ( is_wp_error( $response ) ) {
+            return 'Error fetching price';  // In case of an error
+        }
+    
+        $data = json_decode( wp_remote_retrieve_body( $response ), true );  // Convert JSON response to PHP array
+    
+        // Return the product price
+        if ( isset( $data['price'] ) ) {
+            return $data['price'];
+        }
+    
+        return 'Price not found';  // If price is not found
     }
-
-    $data = json_decode( wp_remote_retrieve_body( $response ), true );  // Convert JSON response to PHP array
-
-    // Return the product price
-    if ( isset( $data['price'] ) ) {
-        return $data['price'];
-    }
-
-    return 'Price not found';  // If price is not found
-}
 
 
 This function:
@@ -88,6 +87,7 @@ Next, you need to store the price and display it on Site B.
 3.1. Create a Function to Store and Display the Price:
 
 Add this code to the functions.php file as well:
+
 
 function display_product_price_in_site_b( $product_id ) {
     // Fetch the price from Site A
